@@ -49,7 +49,14 @@
       </div>
     </div>
 
+    <!-- Navigation Menu -->
     <header class="navbar navbar-sticky">
+      <!-- Site Branding -->
+      <div class="site-branding">
+        <div class="inner">
+          <!-- Site Logo--><a class="site-logo" href="index.html"><img src="<?php bloginfo('template_url'); ?>/img/logo/logo.png" alt="Unishop"></a>
+        </div>
+      </div>
       <nav class="site-menu">
         <ul>
           <?php
