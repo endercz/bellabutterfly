@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
   <head>
-    <meta charset="<?php bloginfo('charset') ?>">
+    <meta charset="<?php bloginfo('charset'); ?>">
     <title>
-      <?php bloginfo( 'name' ); ?> |
-      <?php is_front_page() ? bloginfo( 'description' ) : wp_title(); ?>
+      <?php bloginfo('name'); ?> |
+      <?php is_front_page() ? bloginfo('description') : wp_title(); ?>
     </title>
     <!-- SEO Meta Tags -->
     <meta name="description" content="Bellashop - Sewing products shop">
@@ -48,3 +48,20 @@
         </div>
       </div>
     </div>
+
+    <header class="navbar navbar-sticky">
+      <nav class="site-menu">
+        <ul>
+          <?php
+            $args = array(
+              'theme_location' => 'primary',
+              'container' => false,
+              'items_wrap' => '%3$s',
+              'walker' => new Bellashop_Nav_Walker(),
+            );
+
+            wp_nav_menu($args);
+          ?>
+        </ul>
+      </nav>
+    </header>
