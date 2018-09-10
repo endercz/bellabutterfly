@@ -5733,7 +5733,7 @@ video {
 .isotope-grid:not(.filter-grid) {
   min-height: 180px;
   background-position: center;
-  background-image: url(../img/loading.gif);
+  background-image: url(img/loading.gif);
   background-repeat: no-repeat;
   background-size: 74px;
 }

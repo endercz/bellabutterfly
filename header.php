@@ -13,7 +13,7 @@
 
     <!-- Favicon and Apple Icons -->
     <link rel="icon" type="image/x-icon" href="<?php bloginfo('template_url'); ?>/favicon.ico">
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="<?php bloginfo('template_url'); ?>/favicon.png">
 
     <!-- Vendor Styles including: Bootstrap, Font Icons, Plugins, etc.-->
     <link rel="stylesheet" media="screen" href="<?php bloginfo('template_url'); ?>/css/vendor.min.css">
