@@ -35,6 +35,6 @@ if (!defined('ABSPATH')) {
                 </select>
                 <input type="hidden" name="paged" value="1" />
                 <?php wc_query_string_form_fields(null, array('orderby', 'submit', 'paged', 'product-page')); ?>
-            </form>
+            <!-- </form> this will be added in the result-count.php -->
     <!-- </div> this will be added in the result-count.php -->
 <!-- </div> this will be added in the result-count.php -->
