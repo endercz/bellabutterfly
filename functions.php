@@ -60,3 +60,37 @@ function bellashop_template_loop_product_title()
 add_action('woocommerce_shop_loop_item_title', 'bellashop_template_loop_product_title', 10);
 // Products loop customization
 ////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////
+// Products loop customization
+
+function bellashop_cart()
+{
+    echo '<div class="cart">';
+    echo '<a href="#"></a>';
+    echo '<i class="icon-bag"></i>';
+    $count = WC()->cart->get_cart_contents_count();
+    echo '<span class="count">'.$count.'</span>';
+    echo '<span class="subtotal">$289.68</span>';
+    echo '<div class="toolbar-dropdown">';
+    foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
+        $_product = apply_filters('woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key);
+        $product_name = apply_filters('woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key);
+        $product_price = apply_filters('woocommerce_cart_item_price', WC()->cart->get_product_price($_product), $cart_item, $cart_item_key);
+        $product_permalink = apply_filters('woocommerce_cart_item_permalink', $_product->is_visible() ? $_product->get_permalink($cart_item) : '', $cart_item, $cart_item_key);
+        $thumbnail = apply_filters('woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key);
+        echo sprintf('<div class="dropdown-product-item"><span class="dropdown-product-remove"><a href="%s"><i class="icon-cross"></i></a></span>', wc_get_cart_remove_url($cart_item_key));
+        printf('<a class="dropdown-product-thumb" href="%s">%s</a>', esc_url($product_permalink), wp_kses_post($thumbnail));
+        echo sprintf('<div class="dropdown-product-info"><a class="dropdown-product-title" href="%s">%s</a><span class="dropdown-product-details">%s</span></div>', esc_url($product_permalink), $product_name, $product_price);
+        echo '</div>';
+    }
+    echo '</div>';
+    echo '</div>';
+}
+
+add_action('bellashop_header_cart', 'bellashop_cart');
+
+// Products loop customization
+////////////////////////////////////////////////////////////////////////
+
+// (place the following in functions.php)
