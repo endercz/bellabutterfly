@@ -62,7 +62,7 @@ add_action('woocommerce_shop_loop_item_title', 'bellashop_template_loop_product_
 ////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////
-// Products loop customization
+// Header cart customization
 
 function bellashop_cart()
 {
@@ -88,9 +88,135 @@ function bellashop_cart()
     echo '</div>';
 }
 
-add_action('bellashop_header_cart', 'bellashop_cart');
+//add_action('bellashop_header_cart', 'bellashop_cart');
 
-// Products loop customization
+if (!function_exists('bellashop_is_woocommerce_activated')) {
+    /**
+     * Query WooCommerce activation.
+     */
+    function bellashop_is_woocommerce_activated()
+    {
+        return class_exists('WooCommerce') ? true : false;
+    }
+}
+
+if (!function_exists('bellashop_header_cart')) {
+    /**
+     * Display Header Cart.
+     *
+     * @since  1.0.0
+     *
+     * @uses  \bellashop_is_woocommerce_activated() check if WooCommerce is activated
+     */
+    function bellashop_header_cart()
+    {
+        if (bellashop_is_woocommerce_activated()) {
+            if (is_cart()) {
+                $class = 'current-menu-item';
+            } else {
+                $class = '';
+            } ?>
+        <div class="cart">
+            <?php bellashop_cart_link(); ?>
+            <div class="toolbar-dropdown">
+            <?php bellashop_cart_dropdown(); ?>
+            </div>
+        </div>
+		<?php
+        }
+    }
+}
+
+add_action('bellashop_header_mini_cart', 'bellashop_header_cart');
+
+if (!function_exists('bellashop_cart_link')) {
+    /**
+     * Cart Link
+     * Displayed a link to the cart including the number of items present and the cart total.
+     *
+     * @since  1.0.0
+     */
+    function bellashop_cart_link()
+    {
+        // echo '<div class="cart-contents">';
+        echo '<a href="#"></a>';
+        echo '<i class="icon-bag"></i>';
+        // echo '<span class="count">'.WC()->cart->get_cart_contents_count().'</span>';
+        bellashop_cart_items_count();
+        // echo '<span class="subtotal">'.WC()->cart->get_cart_subtotal().'</span>';
+        bellashop_cart_subtotal();
+        // echo '</div>';
+    }
+}
+
+function bellashop_cart_items_count()
+{
+    echo '<span class="count">'.WC()->cart->get_cart_contents_count().'</span>';
+}
+
+function bellashop_cart_subtotal()
+{
+    echo '<span class="subtotal">'.WC()->cart->get_cart_subtotal().'</span>';
+}
+
+if (!function_exists('bellashop_cart_dropdown')) {
+    function bellashop_cart_dropdown()
+    {
+        foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
+            $_product = apply_filters('woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key);
+            $product_name = apply_filters('woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key);
+            $product_price = apply_filters('woocommerce_cart_item_price', WC()->cart->get_product_price($_product), $cart_item, $cart_item_key);
+            $product_permalink = apply_filters('woocommerce_cart_item_permalink', $_product->is_visible() ? $_product->get_permalink($cart_item) : '', $cart_item, $cart_item_key);
+            $thumbnail = apply_filters('woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key);
+            echo sprintf('<div class="dropdown-product-item"><span class="dropdown-product-remove"><a href="%s"><i class="icon-cross"></i></a></span>', wc_get_cart_remove_url($cart_item_key));
+            printf('<a class="dropdown-product-thumb" href="%s">%s</a>', esc_url($product_permalink), wp_kses_post($thumbnail));
+            echo sprintf('<div class="dropdown-product-info"><a class="dropdown-product-title" href="%s">%s</a><span class="dropdown-product-details">%s &times; %s</span></div>', esc_url($product_permalink), $product_name, $cart_item['quantity'], $product_price);
+            echo '</div>';
+        }
+    }
+}
+
+if (!function_exists('bellashop_cart_link_fragment')) {
+    /**
+     * Cart Fragments
+     * Ensure cart contents update when products are added to the cart via AJAX.
+     *
+     * @param array $fragments fragments to refresh via AJAX
+     *
+     * @return array Fragments to refresh via AJAX
+     */
+    function bellashop_cart_link_fragment($fragments)
+    {
+        global $woocommerce;
+
+        // ob_start();
+        // bellashop_cart_items_count();
+        // $fragments['span.count'] = ob_get_clean();
+
+        // ob_start();
+        // bellashop_cart_subtotal();
+        // $fragments['span.subtotal'] = ob_get_clean();
+
+        ob_start();
+        bellashop_header_cart();
+        $fragments['div.cart'] = ob_get_clean();
+
+        return $fragments;
+    }
+}
+
+/*
+ * Cart fragment
+ *
+ * @see storefront_cart_link_fragment()
+ */
+if (defined('WC_VERSION') && version_compare(WC_VERSION, '2.3', '>=')) {
+    add_filter('woocommerce_add_to_cart_fragments', 'bellashop_cart_link_fragment');
+} else {
+    add_filter('add_to_cart_fragments', 'bellashop_cart_link_fragment');
+}
+
+// Header cart customization
 ////////////////////////////////////////////////////////////////////////
 
 // (place the following in functions.php)

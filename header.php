@@ -92,7 +92,7 @@
                 <li><a href="#"> <i class="icon-unlock"></i>Logout</a></li>
               </ul>
             </div>
-            <?php do_action('bellashop_header_cart'); ?>
+            <?php do_action('bellashop_header_mini_cart'); ?>
           </div>
         </div>
       </div>
