@@ -25,11 +25,12 @@ global $product;
 echo apply_filters('woocommerce_loop_add_to_cart_link', // WPCS: XSS ok.
     sprintf('<div class="product-buttons">
             <button class="btn btn-outline-secondary btn-sm btn-wishlist" data-toggle="tooltip" title="Whishlist"><i class="icon-heart"></i></button>
-            <button href="%s" data-quantity="%s" class="%s" %s>%s</button></div>',
+            <a href="%s" data-product_id=%s data-quantity="%s" class="%s" %s>%s</a></div>',
         esc_url($product->add_to_cart_url()),
+        esc_attr($product->get_id()),
         esc_attr(isset($args['quantity']) ? $args['quantity'] : 1),
         // esc_attr(isset($args['class']) ? $args['class'] : 'button'),
-        'btn btn-outline-primary btn-sm',
+        'button product_type_simple add_to_cart_button ajax_add_to_cart btn btn-outline-primary btn-sm',
         'data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-circle-check" data-toast-title="Product" data-toast-message="successfuly added to cart!"',
         // isset($args['attributes']) ? wc_implode_html_attributes($args['attributes']) : '',
         esc_html($product->add_to_cart_text())
