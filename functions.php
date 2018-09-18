@@ -71,7 +71,7 @@ function bellashop_cart()
     echo '<i class="icon-bag"></i>';
     $count = WC()->cart->get_cart_contents_count();
     echo '<span class="count">'.$count.'</span>';
-    echo '<span class="subtotal">$289.68</span>';
+    echo '<span class="subtotal">'.WC()->cart->get_cart_subtotal().'</span>';
     echo '<div class="toolbar-dropdown">';
     foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
         $_product = apply_filters('woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key);
