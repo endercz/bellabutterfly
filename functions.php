@@ -118,7 +118,6 @@ if (!function_exists('bellashop_header_cart')) {
             } ?>
         <div class="cart">
             <?php bellashop_cart_link(); ?>
-            <div class="toolbar-dropdown">
             <?php bellashop_cart_dropdown(); ?>
             </div>
         </div>
@@ -162,17 +161,7 @@ function bellashop_cart_subtotal()
 if (!function_exists('bellashop_cart_dropdown')) {
     function bellashop_cart_dropdown()
     {
-        foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
-            $_product = apply_filters('woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key);
-            $product_name = apply_filters('woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key);
-            $product_price = apply_filters('woocommerce_cart_item_price', WC()->cart->get_product_price($_product), $cart_item, $cart_item_key);
-            $product_permalink = apply_filters('woocommerce_cart_item_permalink', $_product->is_visible() ? $_product->get_permalink($cart_item) : '', $cart_item, $cart_item_key);
-            $thumbnail = apply_filters('woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key);
-            echo sprintf('<div class="dropdown-product-item"><span class="dropdown-product-remove"><a href="%s"><i class="icon-cross"></i></a></span>', wc_get_cart_remove_url($cart_item_key));
-            printf('<a class="dropdown-product-thumb" href="%s">%s</a>', esc_url($product_permalink), wp_kses_post($thumbnail));
-            echo sprintf('<div class="dropdown-product-info"><a class="dropdown-product-title" href="%s">%s</a><span class="dropdown-product-details">%s &times; %s</span></div>', esc_url($product_permalink), $product_name, $cart_item['quantity'], $product_price);
-            echo '</div>';
-        }
+        wc_get_template('cart/mini-cart.php');
     }
 }
 
