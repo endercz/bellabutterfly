@@ -7,6 +7,24 @@ add_action('after_setup_theme', function () {
     add_theme_support('woocommerce');
 });
 
+function bellashop_add_to_cart_script()
+{
+    wp_dequeue_script('wc-add-to-cart');
+    // wp_dequeue_script('wc-cart-fragments');
+    wp_register_script('bellashop-add-to-cart', get_stylesheet_directory_uri().'/assets/js/frontend/add-to-cart.js', $deps = array('jquery'), $version = 100, $in_footer = true);
+    $params = array(
+        'ajax_url' => WC()->ajax_url(),
+        'wc_ajax_url' => WC_AJAX::get_endpoint('%%endpoint%%'),
+        'i18n_view_cart' => esc_attr__('View cart', 'woocommerce'),
+        'cart_url' => apply_filters('woocommerce_add_to_cart_redirect', wc_get_cart_url()),
+        'is_cart' => is_cart(),
+        'cart_redirect_after_add' => get_option('woocommerce_cart_redirect_after_add'),
+    );
+    wp_localize_script('bellashop-add-to-cart', 'wc_add_to_cart_params', $params);
+    wp_enqueue_script('bellashop-add-to-cart');
+}
+add_action('wp_enqueue_scripts', 'bellashop_add_to_cart_script', 200);
+
 // Register menu locaitons
 register_nav_menus(array(
     'primary' => __('Primary Menu'),
@@ -63,32 +81,6 @@ add_action('woocommerce_shop_loop_item_title', 'bellashop_template_loop_product_
 
 ////////////////////////////////////////////////////////////////////////
 // Header cart customization
-
-function bellashop_cart()
-{
-    echo '<div class="cart">';
-    echo '<a href="#"></a>';
-    echo '<i class="icon-bag"></i>';
-    $count = WC()->cart->get_cart_contents_count();
-    echo '<span class="count">'.$count.'</span>';
-    echo '<span class="subtotal">'.WC()->cart->get_cart_subtotal().'</span>';
-    echo '<div class="toolbar-dropdown">';
-    foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
-        $_product = apply_filters('woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key);
-        $product_name = apply_filters('woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key);
-        $product_price = apply_filters('woocommerce_cart_item_price', WC()->cart->get_product_price($_product), $cart_item, $cart_item_key);
-        $product_permalink = apply_filters('woocommerce_cart_item_permalink', $_product->is_visible() ? $_product->get_permalink($cart_item) : '', $cart_item, $cart_item_key);
-        $thumbnail = apply_filters('woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key);
-        echo sprintf('<div class="dropdown-product-item"><span class="dropdown-product-remove"><a href="%s"><i class="icon-cross"></i></a></span>', wc_get_cart_remove_url($cart_item_key));
-        printf('<a class="dropdown-product-thumb" href="%s">%s</a>', esc_url($product_permalink), wp_kses_post($thumbnail));
-        echo sprintf('<div class="dropdown-product-info"><a class="dropdown-product-title" href="%s">%s</a><span class="dropdown-product-details">%s</span></div>', esc_url($product_permalink), $product_name, $product_price);
-        echo '</div>';
-    }
-    echo '</div>';
-    echo '</div>';
-}
-
-//add_action('bellashop_header_cart', 'bellashop_cart');
 
 if (!function_exists('bellashop_is_woocommerce_activated')) {
     /**
@@ -162,6 +154,7 @@ if (!function_exists('bellashop_cart_dropdown')) {
     function bellashop_cart_dropdown()
     {
         wc_get_template('cart/mini-cart.php');
+        // echo '<h1>TEST</h1>';
     }
 }
 

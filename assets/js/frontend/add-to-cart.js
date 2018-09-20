@@ -81,7 +81,7 @@ jQuery( function( $ ) {
 			}
 		});
 
-		$.post( wc_add_to_cart_params.wc_ajax_url.toString().replace( '%%endpoint%%', 'remove_from_cart' ), { cart_item_key : $thisbutton.data( 'cart_item_key' ) }, function( response ) {
+		$.post( wc_add_to_cart_params.wc_ajax_url.toString().replace( '%%endpoint%%', 'remove_from_cart' ), { cart_item_key : $thisbutton.attr( 'cart_item_key' ) }, function( response ) {
 			if ( ! response || ! response.fragments ) {
 				window.location = $thisbutton.attr( 'href' );
 				return;
