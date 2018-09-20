@@ -210,6 +210,7 @@ add_action('widgets_init', function () {
     function bellashop_set_cat_walker($args)
     {
         $args['walker'] = new Bellashop_cat_list_walker();
+        //$args['show_count'] = true;
 
         return $args;
     }
