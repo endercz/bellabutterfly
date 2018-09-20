@@ -201,4 +201,21 @@ if (defined('WC_VERSION') && version_compare(WC_VERSION, '2.3', '>=')) {
 // Header cart customization
 ////////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////
+// Product categories widget customization
+add_action('widgets_init', function () {
+    require_once get_template_directory().'/inc/bellashop_cat_list_walker.php';
+    // WC_Widget_Product_Categories
+    add_filter('woocommerce_product_categories_widget_args', 'bellashop_set_cat_walker', 10, 1);
+    function bellashop_set_cat_walker($args)
+    {
+        $args['walker'] = new Bellashop_cat_list_walker();
+
+        return $args;
+    }
+});
+
+// Product categories widget customization
+////////////////////////////////////////////////////////////////////////
+
 // (place the following in functions.php)

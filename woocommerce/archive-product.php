@@ -119,6 +119,14 @@ get_footer('shop');
 
 <!-- Sidebar          -->
 <div class="col-xl-3 col-lg-4 order-lg-1">
+<?php
+  the_widget('WC_Widget_Product_Categories', array('title' => 'Shop Categories'), array(
+    'before_widget' => '<div class="widget woocommerce widget_product_categories widget-categories">',
+    'after_widget' => '</div>',
+    'before_title' => '<h3 class="widget-title">',
+    'after_title' => '</h3>',
+  ));
+?>
             <button class="sidebar-toggle position-left" data-toggle="modal" data-target="#modalShopFilters"><i class="icon-layout"></i></button>
             <aside class="sidebar sidebar-offcanvas">
               <!-- Widget Categories-->
