@@ -70,13 +70,23 @@ do_action('woocommerce_before_mini_cart'); ?>
 
             do_action('woocommerce_mini_cart_contents');
         ?>
+
+        <div class="toolbar-dropdown-group">
+            <div class="column">
+                <!-- <p class="woocommerce-mini-cart__total total"><strong><php _e('Subtotal', 'woocommerce'); ?>:</strong> <php echo WC()->cart->get_cart_subtotal(); ?></p> -->
+                <a class="btn btn-sm btn-block btn-secondary" href="#">View Cart</a>
+            </div>
+            <div class="column">
+                <a class="btn btn-sm btn-block btn-success" href="#">Checkout</a>
+            </div>
+        </div>
+
+	    <?php do_action('woocommerce_widget_shopping_cart_before_buttons'); ?>
 	</div>
 
-	<!-- <p class="woocommerce-mini-cart__total total"><strong><php _e('Subtotal', 'woocommerce'); ?>:</strong> <php echo WC()->cart->get_cart_subtotal(); ?></p> -->
-
-	<?php do_action('woocommerce_widget_shopping_cart_before_buttons'); ?>
-
-	<!-- <p class="woocommerce-mini-cart__buttons buttons"><?php do_action('woocommerce_widget_shopping_cart_buttons'); ?></p> -->
+    <!-- <div class="toolbar-dropdown woocommerce-mini-cart cart_list product_list_widget">
+	    <p class="woocommerce-mini-cart__buttons buttons"><?php do_action('woocommerce_widget_shopping_cart_buttons'); ?></p>
+    </div> -->
 
 <?php else : ?>
 
