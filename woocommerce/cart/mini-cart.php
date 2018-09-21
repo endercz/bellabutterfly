@@ -80,7 +80,9 @@ do_action('woocommerce_before_mini_cart'); ?>
 
 <?php else : ?>
 
-	<!-- <p class="woocommerce-mini-cart__empty-message"><?php _e('No products in the cart.', 'woocommerce'); ?></p> -->
+    <div class="toolbar-dropdown woocommerce-mini-cart cart_list product_list_widget">
+	    <span class="woocommerce-mini-cart__empty-message"><?php _e('No products in the cart.', 'woocommerce'); ?></span>
+    </div>
 
 <?php endif; ?>
 
